@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gratis Woningscan</title>
+  <style>
+    :root {
+      --bg: #e9e5e1;
+      --card: #f7f7f7;
+      --text: #26323c;
+      --muted: #667787;
+      --border: #d7dee3;
+      --cyan: #11b4cf;
+      --cyan-soft: #dff4f8;
+      --green: #1ab66b;
+      --green-soft: #e6f7ef;
+      --orange: #ef6f45;
+      --footer: #24343f;
+      --shadow: 0 6px 18px rgba(0,0,0,0.04);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.55;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 36px 16px 0;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 760px;
+      background: var(--card);
+      border-radius: 40px;
+      padding: 42px 38px 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      background: var(--cyan-soft);
+      color: var(--cyan);
+      border-radius: 999px;
+      padding: 10px 28px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    h1, h2 {
+      margin: 0;
+      color: var(--text);
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(2.4rem, 4.2vw, 4.25rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    h1 .accent { color: var(--cyan); }
+
+    p.lead,
+    .helper,
+    .legal,
+    .footer-links {
+      color: var(--muted);
+    }
+
+    p.lead {
+      font-size: 1rem;
+      max-width: 650px;
+      margin: 0 0 24px;
+    }
+
+    .section-title {
+      font-size: clamp(1.5rem, 2.5vw, 2rem);
+      font-weight: 800;
+      margin: 14px 0 16px;
+    }
+
+    .bullets {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .bullet {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      font-size: 1rem;
+    }
+
+    .check {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--green-soft);
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      flex: 0 0 28px;
+      margin-top: 2px;
+    }
+
+    .how {
+      background: #edf5f7;
+      border-radius: 18px;
+      padding: 18px 20px 16px;
+      margin-bottom: 26px;
+    }
+
+    .how .label {
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: 0.98rem;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .how .text {
+      margin-top: 2px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.9rem, 3.4vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .field input {
+      width: 100%;
+      height: 74px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: white;
+      padding: 0 22px;
+      font-size: 1rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .field input::placeholder { color: #a4b1bc; }
+    .field input:focus {
+      border-color: #a5d9e4;
+      box-shadow: 0 0 0 4px rgba(17,180,207,0.08);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.95fr;
+      gap: 18px;
+    }
+
+    .helper {
+      font-size: 0.94rem;
+      margin: 10px 0 14px;
+      max-width: 640px;
+    }
+
+    .checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px;
+      font-size: 1rem;
+      color: var(--text);
+    }
+
+    .checkbox input[type="checkbox"] {
+      width: 36px;
+      height: 36px;
+      appearance: none;
+      border: 2px solid #a2b0ba;
+      border-radius: 8px;
+      background: white;
+      margin: 0;
+      position: relative;
+      flex: 0 0 36px;
+      cursor: pointer;
+    }
+
+    .checkbox input[type="checkbox"]:checked {
+      border-color: var(--cyan);
+      background: var(--cyan);
+    }
+
+    .checkbox input[type="checkbox"]:checked::after {
+      content: "✓";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 900;
+      font-size: 1.1rem;
+    }
+
+    .checkbox label {
+      padding-top: 4px;
+      line-height: 1.4;
+      cursor: pointer;
+    }
+
+    .checkbox a {
+      color: var(--cyan);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .btn {
+      width: 100%;
+      height: 92px;
+      border: none;
+      border-radius: 22px;
+      background: var(--orange);
+      color: white;
+      font-size: clamp(1.4rem, 2.6vw, 2rem);
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.12s ease, filter 0.2s ease;
+      box-shadow: 0 10px 22px rgba(239,111,69,0.16);
+    }
+
+    .btn:hover { filter: brightness(1.03); }
+    .btn:active { transform: translateY(1px); }
+
+    .footer-accent {
+      width: 100%;
+      max-width: 100%;
+      height: 8px;
+      background: var(--cyan);
+      margin-top: 14px;
+    }
+
+    footer {
+      width: 100%;
+      background: var(--footer);
+      color: white;
+      padding: 24px 16px 34px;
+      text-align: center;
+    }
+
+    footer .brand {
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .footer-links {
+      color: #d7dde1;
+      font-size: 0.98rem;
+    }
+
+    .footer-links a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .page { padding: 20px 12px 0; }
+      .card {
+        padding: 28px 20px 24px;
+        border-radius: 28px;
+      }
+      .pill { font-size: 0.95rem; padding: 10px 18px; }
+      .two-col { grid-template-columns: 1fr; }
+      .field input { height: 66px; }
+      .btn { height: 82px; font-size: 1.35rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <main class="card">
+      <div class="pill">Gratis Woningscan · ± 2 minuten</div>
+
+      <h1>
+        Ontdek waar jouw<br />
+        woning kansen heeft om<br />
+        <span class="accent">meer waard te worden</span>
+      </h1>
+
+      <p class="lead">
+        Beantwoord een paar korte vragen en krijg inzicht in welke verbeteringen bij jouw woning passen en mogelijk kunnen bijdragen aan de woningwaarde.
+      </p>
+
+      <div class="section-title">Na de Woningscan krijg je inzicht in:</div>
+
+      <div class="bullets">
+        <div class="bullet"><span class="check">✓</span><span>relevante verbeteringen voor jouw woning</span></div>
+        <div class="bullet"><span class="check">✓</span><span>mogelijke kansen voor je woningwaarde</span></div>
+        <div class="bullet"><span class="check">✓</span><span>welke stappen je als eerste kunt overwegen</span></div>
+      </div>
+
+      <div class="how">
+        <div class="label">Zo werkt het</div>
+        <div class="text">Adres invullen → korte vragen → persoonlijk woninginzicht</div>
+      </div>
+
+      <h2>Start met je woning</h2>
+
+      <form id="scan-form" class="form-grid">
+        <div class="field">
+          <label for="postcode">Postcode *</label>
+          <input id="postcode" name="postcode" type="text" placeholder="1234 AB" required />
+        </div>
+
+        <div class="two-col">
+          <div class="field">
+            <label for="huisnummer">Huisnummer *</label>
+            <input id="huisnummer" name="huisnummer" type="text" placeholder="1234 AB" required />
+          </div>
+          <div class="field">
+            <label for="toevoeging">Toevoeging</label>
+            <input id="toevoeging" name="toevoeging" type="text" placeholder="A" />
+          </div>
+        </div>
+
+        <p class="helper">
+          We gebruiken je adres om openbare woninggegevens op te halen en de scan af te stemmen op jouw woning.
+        </p>
+
+        <div class="checkbox">
+          <input id="voorwaarden" type="checkbox" required />
+          <label for="voorwaarden">
+            Ik accepteer de <a href="#">algemene voorwaarden</a>*
+          </label>
+        </div>
+
+        <button class="btn" type="submit">Start de gratis Woningscan</button>
+      </form>
+    </main>
+  </div>
+
+  <div class="footer-accent"></div>
+  <footer>
+    <div class="brand">Tsavo B.V.</div>
+    <div class="footer-links">
+      <a href="#">Algemene voorwaarden</a> ·
+      <a href="#">Privacy</a> ·
+      <a href="#">Cookies</a> ·
+      <a href="#">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById('scan-form');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const button = form.querySelector('button');
+      const original = button.textContent;
+      button.textContent = 'Bezig met starten...';
+      button.disabled = true;
+      setTimeout(() => {
+        button.textContent = 'Scan gestart';
+      }, 700);
+      setTimeout(() => {
+        button.textContent = original;
+        button.disabled = false;
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
